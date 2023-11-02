@@ -8,7 +8,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 if($_SESSION['role']!='admin'){
-  header("Location: ../dashboard.php");
+  header("Location: ../routing.php");
   exit();
 }
 

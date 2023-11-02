@@ -3,7 +3,7 @@ include 'inc/koneksi.php';
 session_start();
  
 if (isset($_SESSION['id'])) {
-    header("Location: dashboard.php");
+    header("Location: routing.php");
 }
  
 if (isset($_POST['login'])) {
@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION['id'] = $row['id_user'];
         $_SESSION['role'] = $row['role_user'];
-        header("Location: dashboard.php");
+        header("Location: routing.php");
     } else {
         echo "<script>alert('Username atau password Anda salah. Silahkan coba lagi!')</script>";
     }
