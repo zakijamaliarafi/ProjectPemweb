@@ -46,6 +46,10 @@ if($del!=""){
     </style>
 </head>
 <body>
+    <p>
+        <a href="view.php">Manajemen Barang</a>
+        <a href="../inc/logout.php">Log out</a>
+    </p>
     <h1>Data Barang</h1>
     <p><a href="insert.php">Tambah Data</a></p>
     <table>
