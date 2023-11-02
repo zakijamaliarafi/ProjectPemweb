@@ -18,7 +18,7 @@ if($_SESSION['role']!='pegawai'){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaksi</title>
+    <title>History</title>
     <style>
         body{
             text-align: center;
@@ -27,10 +27,10 @@ if($_SESSION['role']!='pegawai'){
 </head>
 <body>
     <p>
-        <a href="view.php">Transaksi</a>
-        <a href="../history/view.php">History</a>
+        <a href="../transaksi/view.php">Transaksi</a>
+        <a href="view.php">History</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
-    <h1>Transaksi</h1>
+    <h1>History</h1>
 </body>
 </html>
