@@ -15,4 +15,8 @@ if($_SESSION['role']=='pegawai'){
     header("Location: transaksi/view.php");
 }
 
+if($_SESSION['role']=='manajer'){
+    header("Location: laporan/view.php");
+}
+
 ?>
