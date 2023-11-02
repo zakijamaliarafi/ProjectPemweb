@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2023 at 01:22 AM
+-- Generation Time: Nov 02, 2023 at 05:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,7 +40,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `stok`, `harga_beli`, `harga_jual`) VALUES
-('BR001', 'Sabun', 10, 4500, 6000);
+('BR001', 'Sabun', 10, 4500, 5000),
+('BR002', 'Shampo', 20, 1500, 2000);
 
 -- --------------------------------------------------------
 
@@ -49,7 +50,6 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `stok`, `harga_beli`, `harga_j
 --
 
 CREATE TABLE `detail_transaksi` (
-  `id_detail_transaksi` int(11) NOT NULL,
   `id_transaksi` int(11) NOT NULL,
   `id_barang` varchar(5) NOT NULL,
   `jumlah_barang` int(11) NOT NULL,
@@ -106,8 +106,7 @@ ALTER TABLE `barang`
 -- Indexes for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  ADD PRIMARY KEY (`id_detail_transaksi`),
-  ADD KEY `id_transaksi` (`id_transaksi`),
+  ADD PRIMARY KEY (`id_transaksi`,`id_barang`),
   ADD KEY `id_barang` (`id_barang`);
 
 --
@@ -126,12 +125,6 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `detail_transaksi`
---
-ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail_transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
