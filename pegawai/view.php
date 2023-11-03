@@ -14,7 +14,7 @@ if($_SESSION['role']!='admin'){
 
 $del=$_GET['del'];
 if($del!=""){
-    $sql = "delete from barang where id_barang='$del'";
+    $sql = "delete from user where id_user='$del'";
     $query = mysqli_query($conn, $sql);
     if($query){
     ?>
@@ -47,38 +47,36 @@ if($del!=""){
 </head>
 <body>
     <p>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Barang</a>
-        <a href="../pegawai/view.php">Manajemen Pegawai</a>
+        <a href="../barang/view.php">Manajemen Barang</a>
+        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Pegawai</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
-    <h1>Data Barang</h1>
-    <p><a href="insert.php">Tambah Data</a></p>
+    <h1>Data Pegawai</h1>
+    <p><a href="insert.php">Tambah Pegawai</a></p>
     <table>
         <tr>
             <th>No</th>
-            <th>Id Barang</th>
+            <th>Id Pegawai</th>
             <th>Nama</th>
-            <th>Stok</th>
-            <th>Harga Beli</th>
-            <th>Harga Jual</th>
+            <th>Username</th>
+            <th>Password</th>
             <th>Aksi</th>
         </tr>
         <?php
         $no = 1;
-        $sql = "select * from barang order by id_barang asc";
+        $sql = "select * from user where role_user='pegawai' order by id_user asc";
         $query = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($query)){
             echo "
             <tr>
                 <td>$no</td>
-                <td>$row[id_barang]</td>
-                <td>$row[nama_barang]</td>
-                <td>$row[stok]</td>
-                <td>Rp. $row[harga_beli]</td>
-                <td>Rp. $row[harga_jual]</td>
+                <td>$row[id_user]</td>
+                <td>$row[nama_user]</td>
+                <td>$row[username]</td>
+                <td>$row[password]</td>
                 <td>
-                    <a href='update.php?id=$row[id_barang]'>Edit</a>
-                    <a href='view.php?del=$row[id_barang]'>Hapus</a>
+                    <a href='update.php?id=$row[id_user]'>Edit</a>
+                    <a href='view.php?del=$row[id_user]'>Hapus</a>
                 </td>
             </tr>
             ";
