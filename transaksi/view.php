@@ -27,7 +27,7 @@ if($_SESSION['role']!='pegawai'){
 </head>
 <body>
     <p>
-        <a href="view.php">Transaksi</a>
+        <a href="<?php $_SERVER['PHP_SELF']; ?>">Transaksi</a>
         <a href="../history/view.php">History</a>
         <a href="../inc/logout.php">Log out</a>
     </p>

@@ -27,7 +27,7 @@ if($_SESSION['role']!='manajer'){
 </head>
 <body>
     <p>
-        <a href="view.php">Laporan</a>
+        <a href="<?php $_SERVER['PHP_SELF']; ?>">Laporan</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
     <h1>Laporan</h1>

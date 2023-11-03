@@ -47,7 +47,7 @@ if($del!=""){
 </head>
 <body>
     <p>
-        <a href="view.php">Manajemen Barang</a>
+        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Barang</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
     <h1>Data Barang</h1>
