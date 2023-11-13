@@ -16,9 +16,10 @@ if(isset($_POST['input'])){
     $id = $_POST['id_barang'];
     $nama = $_POST['nama_barang'];
     $stok = $_POST['stok'];
+    $supplier = $_POST['supplier'];
     $harga_beli = $_POST['harga_beli'];
     $harga_jual = $_POST['harga_jual'];
-    $insert = "INSERT INTO `barang` (`id_barang`, `nama_barang`, `stok`, `harga_beli`, `harga_jual`) VALUES ('$id', '$nama', '$stok', '$harga_beli', '$harga_jual') ";
+    $insert = "INSERT INTO `barang` (`id_barang`, `nama_barang`, `stok`, `harga_beli`, `harga_jual`, `id_supplier`) VALUES ('$id', '$nama', '$stok', '$harga_beli', '$harga_jual', '$supplier') ";
     $query = mysqli_query($conn, $insert);
     if($query){
         ?>
@@ -62,6 +63,20 @@ if(isset($_POST['input'])){
             <tr>
               <td>Stok</td>
               <td><input type="number" name="stok" required></td>  
+            </tr>
+            <tr>
+              <td>Supplier</td>
+              <td>
+                <select name="supplier">
+                  <?php
+                  $s = "select * from supplier";
+                  $q = mysqli_query($conn, $s);
+                  while($row=mysqli_fetch_array($q)){
+                    echo "<option value='$row[id_supplier]'>$row[nama_supplier]</option>";
+                  }
+                  ?>
+                </select>
+              </td>
             </tr>
             <tr>
               <td>Harga Beli</td>

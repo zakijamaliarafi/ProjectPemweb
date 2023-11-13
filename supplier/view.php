@@ -14,7 +14,7 @@ if($_SESSION['role']!='admin'){
 
 $del=$_GET['del'];
 if($del!=""){
-    $sql = "delete from user where id_user='$del'";
+    $sql = "delete from supplier where id_supplier='$del'";
     $query = mysqli_query($conn, $sql);
     if($query){
     ?>
@@ -48,36 +48,32 @@ if($del!=""){
 <body>
     <p>
         <a href="../barang/view.php">Manajemen Barang</a>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Pegawai</a>
-        <a href="../supplier/view.php">Manajemen Supplier</a>
+        <a href="../pegawai/view.php">Manajemen Pegawai</a>
+        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Supplier</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
-    <h1>Data Pegawai</h1>
-    <p><a href="insert.php">Tambah Pegawai</a></p>
+    <h1>Data Supplier</h1>
+    <p><a href="insert.php">Tambah Supplier</a></p>
     <table>
         <tr>
             <th>No</th>
-            <th>Id Pegawai</th>
             <th>Nama</th>
-            <th>Username</th>
-            <th>Password</th>
+            <th>Kota</th>
             <th>Aksi</th>
         </tr>
         <?php
         $no = 1;
-        $sql = "select * from user where role_user='pegawai' order by id_user asc";
+        $sql = "select * from supplier order by id_supplier asc";
         $query = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($query)){
             echo "
             <tr>
                 <td>$no</td>
-                <td>$row[id_user]</td>
-                <td>$row[nama_user]</td>
-                <td>$row[username]</td>
-                <td>$row[password]</td>
+                <td>$row[nama_supplier]</td>
+                <td>$row[kota]</td>
                 <td>
-                    <a href='update.php?id=$row[id_user]'>Edit</a>
-                    <a href='view.php?del=$row[id_user]'>Hapus</a>
+                    <a href='update.php?id=$row[id_supplier]'>Edit</a>
+                    <a href='view.php?del=$row[id_supplier]'>Hapus</a>
                 </td>
             </tr>
             ";

@@ -49,6 +49,7 @@ if($del!=""){
     <p>
         <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Barang</a>
         <a href="../pegawai/view.php">Manajemen Pegawai</a>
+        <a href="../supplier/view.php">Manajemen Supplier</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
     <h1>Data Barang</h1>
@@ -59,13 +60,14 @@ if($del!=""){
             <th>Id Barang</th>
             <th>Nama</th>
             <th>Stok</th>
+            <th>Nama Supplier</th>
             <th>Harga Beli</th>
             <th>Harga Jual</th>
             <th>Aksi</th>
         </tr>
         <?php
         $no = 1;
-        $sql = "select * from barang order by id_barang asc";
+        $sql = "select * from barang,supplier where barang.id_supplier = supplier.id_supplier order by id_barang asc";
         $query = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($query)){
             echo "
@@ -74,6 +76,7 @@ if($del!=""){
                 <td>$row[id_barang]</td>
                 <td>$row[nama_barang]</td>
                 <td>$row[stok]</td>
+                <td>$row[nama_supplier]</td>
                 <td>Rp. $row[harga_beli]</td>
                 <td>Rp. $row[harga_jual]</td>
                 <td>

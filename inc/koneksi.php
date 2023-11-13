@@ -2,7 +2,7 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$db = 'kasir';
+$db = 'kasir_update';
 
 $conn = mysqli_connect($host,$user,$password,$db);
 
