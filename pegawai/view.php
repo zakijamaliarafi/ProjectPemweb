@@ -60,7 +60,6 @@ if($del!=""){
             <th>Id Pegawai</th>
             <th>Nama</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Aksi</th>
         </tr>
         <?php
@@ -74,7 +73,6 @@ if($del!=""){
                 <td>$row[id_user]</td>
                 <td>$row[nama_user]</td>
                 <td>$row[username]</td>
-                <td>$row[password]</td>
                 <td>
                     <a href='update.php?id=$row[id_user]'>Edit</a>
                     <a href='view.php?del=$row[id_user]'>Hapus</a>
