@@ -28,6 +28,11 @@ if(isset($_POST['cari'])){
         ?>
         <script>alert('Barang tidak ditemukan');</script>
         <?php
+    }elseif($row2['stok']<1){
+        ?>
+        <script>alert('Stok barang habis');</script>
+        <?php
+        $row2 = null;
     }
 }
 
@@ -37,34 +42,43 @@ if(isset($_POST['tambah_barang'])){
     $jumlah = $_POST['jumlah'];
     $subtotal = $jumlah * $_POST['harga_jual'];
     $current_time = date('Y-m-d H:i:s');
-    
-    if(empty($_SESSION['id_transaksi'])){
-        $insert_transaksi = "INSERT INTO `transaksi` (`tgl_transaksi`, `id_user`) VALUES ('$current_time', '$_SESSION[id]')";
-        $query = mysqli_query($conn, $insert_transaksi);
-        
-        $select_id = "SELECT * FROM `transaksi` WHERE id_transaksi=(SELECT MAX(id_transaksi) FROM `transaksi`)";
-        $query = mysqli_query($conn, $select_id);
-        $row = mysqli_fetch_array($query);
-        $_SESSION['id_transaksi'] = $row['id_transaksi'];
-        
-        $insert_detail = "INSERT INTO `detail_transaksi` (`id_transaksi`, `id_barang`, `jumlah_barang`, `subtotal`) VALUES ('$_SESSION[id_transaksi]', '$id_barang', '$jumlah', '$subtotal') ";
-        $query = mysqli_query($conn, $insert_detail);
-    } else {
-        $select = "SELECT * FROM `detail_transaksi` WHERE id_barang='$id_barang' AND id_transaksi='$_SESSION[id_transaksi]'";
-        $query = mysqli_query($conn, $select);
-        $row = mysqli_fetch_array($query);
-        if($row==''){
+
+    $select = "select * from `barang` where id_barang='$id_barang'";
+    $query = mysqli_query($conn, $select);
+    $row = mysqli_fetch_array($query);
+    if($row['stok']<$jumlah){
+        ?>
+        <script>alert('Stok barang tidak cukup');</script>
+        <?php
+    } else{
+        if(empty($_SESSION['id_transaksi'])){
+            $insert_transaksi = "INSERT INTO `transaksi` (`tgl_transaksi`, `id_user`) VALUES ('$current_time', '$_SESSION[id]')";
+            $query = mysqli_query($conn, $insert_transaksi);
+            
+            $select_id = "SELECT * FROM `transaksi` WHERE id_transaksi=(SELECT MAX(id_transaksi) FROM `transaksi`)";
+            $query = mysqli_query($conn, $select_id);
+            $row = mysqli_fetch_array($query);
+            $_SESSION['id_transaksi'] = $row['id_transaksi'];
+            
             $insert_detail = "INSERT INTO `detail_transaksi` (`id_transaksi`, `id_barang`, `jumlah_barang`, `subtotal`) VALUES ('$_SESSION[id_transaksi]', '$id_barang', '$jumlah', '$subtotal') ";
             $query = mysqli_query($conn, $insert_detail);
         } else {
-            ?>
-            <script>alert('Barang sudah ada');</script>
-            <?php
+            $select = "SELECT * FROM `detail_transaksi` WHERE id_barang='$id_barang' AND id_transaksi='$_SESSION[id_transaksi]'";
+            $query = mysqli_query($conn, $select);
+            $row = mysqli_fetch_array($query);
+            if($row==''){
+                $insert_detail = "INSERT INTO `detail_transaksi` (`id_transaksi`, `id_barang`, `jumlah_barang`, `subtotal`) VALUES ('$_SESSION[id_transaksi]', '$id_barang', '$jumlah', '$subtotal') ";
+                $query = mysqli_query($conn, $insert_detail);
+            } else {
+                ?>
+                <script>alert('Barang sudah ada');</script>
+                <?php
+            }
         }
+    
+        $update = "UPDATE `transaksi` SET total_transaksi=(SELECT SUM(subtotal) FROM detail_transaksi WHERE id_transaksi='$_SESSION[id_transaksi]') WHERE id_transaksi='$_SESSION[id_transaksi]'";
+        $query = mysqli_query($conn, $update);
     }
-
-    $update = "UPDATE `transaksi` SET total_transaksi=(SELECT SUM(subtotal) FROM detail_transaksi WHERE id_transaksi='$_SESSION[id_transaksi]') WHERE id_transaksi='$_SESSION[id_transaksi]'";
-    $query = mysqli_query($conn, $update);
 }
 
 if(isset($_POST['bayar']) && !empty($_SESSION['id_transaksi'])){
@@ -74,6 +88,9 @@ if(isset($_POST['bayar']) && !empty($_SESSION['id_transaksi'])){
     $update = "UPDATE `transaksi` SET bayar='$bayar', kembali='$kembali' WHERE id_transaksi='$_SESSION[id_transaksi]'";
     $query = mysqli_query($conn, $update);
     $_SESSION['id_transaksi'] = null;
+    ?>
+        <script>alert('Transaksi berhasil');</script>
+    <?php
 }
 
 if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
@@ -83,6 +100,9 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
     $del = "delete from transaksi where id_transaksi='$_SESSION[id_transaksi]'";
     $query = mysqli_query($conn, $del);
     $_SESSION['id_transaksi'] = null;
+    ?>
+        <script>alert('Transaksi dibatalkan');</script>
+    <?php
 }
     
 ?>
@@ -140,11 +160,11 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                 <td></td>
             </tr>
             <tr>
-                <td><input type="text" name="id_barang" value="<?php echo $row2['id_barang']; ?>" readonly></td>
+                <td><input type="text" id="id_barang" name="id_barang" value="<?php echo $row2['id_barang']; ?>" readonly></td>
                 <td><input type="text" name="nama_barang" value="<?php echo $row2['nama_barang']; ?>" readonly></td>
                 <td><input type="number" name="harga_jual" value="<?php echo $row2['harga_jual']; ?>" readonly></td>
-                <td><input type="number" name="jumlah" required value="1"></td>
-                <td><input type="submit" name="tambah_barang" value="simpan"></td>
+                <td><input type="number" name="jumlah" min="1" required></td>
+                <td><input type="submit" id="tambah_barang" name="tambah_barang" value="simpan" disabled></td>
                 <td><input type="submit" name="reset" value="Batal"></td>
             </tr>
         </table>
@@ -204,7 +224,7 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" required value="0"></td>
+                <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" min="<?php echo $row4['total_transaksi']; ?>" required></td>
                 <td colspan="2"><input type="number" id="uang_kembali" name="uang_kembali" readonly></td>
             </tr>
             <tr>
@@ -228,6 +248,10 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
             document.getElementById("bayar").disabled = false;
         }
     }
+    if(document.getElementById("id_barang").value != ''){
+        document.getElementById("tambah_barang").disabled = false;
+    }
+    
 </script>
 </body>
 </html>
