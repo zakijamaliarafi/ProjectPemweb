@@ -122,7 +122,7 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
 <body>
     <p>
         <a href="<?php $_SERVER['PHP_SELF']; ?>">Transaksi</a>
-        <a href="../history/view.php">History</a>
+        <a href="../riwayat/view.php">Riwayat</a>
         <a href="../inc/logout.php">Log out</a>
     </p>
     <h1>Transaksi</h1>
