@@ -12,6 +12,11 @@ if($_SESSION['role']!='manajer'){
     exit();
 }
 
+if(isset($_POST['input'])){
+    $_SESSION['awal'] = $_POST['tanggal_mulai'];
+    $_SESSION['akhir'] = $_POST['tanggal_akhir'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -41,11 +46,8 @@ if($_SESSION['role']!='manajer'){
     </form>
     <table>
         <?php
-        if(isset($_POST['input'])){
-            $awal = $_POST['tanggal_mulai'];
-            $akhir = $_POST['tanggal_akhir'];
-
-            $select = "SELECT DAYOFMONTH(transaksi.tgl_transaksi) as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$awal' AND '$akhir' GROUP BY DAYOFMONTH(transaksi.tgl_transaksi)";
+        if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
+            $select = "SELECT DAYOFMONTH(transaksi.tgl_transaksi) as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DAYOFMONTH(transaksi.tgl_transaksi)";
             $query = mysqli_query($conn, $select);
             echo "
             <tr>
@@ -66,11 +68,8 @@ if($_SESSION['role']!='manajer'){
     </table>
     <table>
         <?php
-        if(isset($_POST['input'])){
-            $awal = $_POST['tanggal_mulai'];
-            $akhir = $_POST['tanggal_akhir'];
-
-            $select = "SELECT DAYOFMONTH(tgl_transaksi) as tanggal, SUM(total_transaksi) as omset FROM `transaksi` WHERE DATE(tgl_transaksi) BETWEEN '$awal' AND '$akhir' GROUP BY DAYOFMONTH(tgl_transaksi)";
+        if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
+            $select = "SELECT DAYOFMONTH(tgl_transaksi) as tanggal, SUM(total_transaksi) as omset FROM `transaksi` WHERE DATE(tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DAYOFMONTH(tgl_transaksi)";
             $query = mysqli_query($conn, $select);
             echo "
             <tr>
