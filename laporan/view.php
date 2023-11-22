@@ -7,7 +7,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-if($_SESSION['role']!='manajer'){
+if($_SESSION['role']=='pegawai'){
     header("Location: ../routing.php");
     exit();
 }
@@ -32,10 +32,28 @@ if(isset($_POST['input'])){
     </style>
 </head>
 <body>
-    <p>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Laporan</a>
-        <a href="../inc/logout.php">Log out</a>
-    </p>
+    <?php
+    if($_SESSION['role']=='manajer'){
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Data Pegawai</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else {
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Manajemen Pegawai</a>
+        <a href='../barang/view.php'>Manajemen Barang</a>
+        <a href='../supplier/view.php'>Manajemen Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    }
+    ?>
     <h1>Laporan</h1>
     <form name="input" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
         <label for="tanggal_mulai">Tanggal mulai:</label>

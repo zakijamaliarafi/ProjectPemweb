@@ -7,7 +7,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-if($_SESSION['role']!='pegawai'){
+if($_SESSION['role']=='manajer'){
     header("Location: ../routing.php");
     exit();
 }
@@ -117,14 +117,42 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
         body{
             text-align: left;
         }
+        p{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <p>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Transaksi</a>
-        <a href="../riwayat/view.php">Riwayat</a>
-        <a href="../inc/logout.php">Log out</a>
-    </p>
+    <?php
+    if($_SESSION['role']=='pegawai'){
+        echo "<p>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else if($_SESSION['role']=='manajer'){
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Data Pegawai</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else {
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Manajemen Pegawai</a>
+        <a href='../barang/view.php'>Manajemen Barang</a>
+        <a href='../supplier/view.php'>Manajemen Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    }
+    ?>
     <h1>Transaksi</h1>
 
     <table>
@@ -224,7 +252,7 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" min="<?php echo $row4['total_transaksi']; ?>" required></td>
+                <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" min="<?php echo $row4['total_transaksi']; ?>"></td>
                 <td colspan="2"><input type="number" id="uang_kembali" name="uang_kembali" readonly></td>
             </tr>
             <tr>
@@ -232,7 +260,7 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><input type="submit" id="bayar" name="bayar" value="Bayar"></td>
+                <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled></td>
                 <td><input type="submit" name="batal_bayar" value="Batal"></td>
             </tr>
         </form>
@@ -247,6 +275,9 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
         } else{
             document.getElementById("bayar").disabled = false;
         }
+    }
+    if(document.getElementById("uang_bayar").value != ''){
+        document.getElementById("bayar").disabled = false;
     }
     if(document.getElementById("id_barang").value != ''){
         document.getElementById("tambah_barang").disabled = false;

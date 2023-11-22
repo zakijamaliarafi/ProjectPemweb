@@ -7,10 +7,6 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-if($_SESSION['role']!='pegawai'){
-    header("Location: ../routing.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -26,11 +22,36 @@ if($_SESSION['role']!='pegawai'){
     </style>
 </head>
 <body>
-    <p>
-        <a href="../transaksi/view.php">Transaksi</a>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Riwayat</a>
-        <a href="../inc/logout.php">Log out</a>
-    </p>
+    <?php
+    if($_SESSION['role']=='pegawai'){
+        echo "<p>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else if($_SESSION['role']=='manajer'){
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Data Pegawai</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else {
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Manajemen Pegawai</a>
+        <a href='../barang/view.php'>Manajemen Barang</a>
+        <a href='../supplier/view.php'>Manajemen Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    }
+    ?>
     <h1>Riwayat Transaksi</h1>
     <table>
         <tr>

@@ -7,7 +7,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-if($_SESSION['role']!='admin'){
+if($_SESSION['role']=='pegawai'){
     header("Location: ../routing.php");
     exit();
 }
@@ -46,21 +46,45 @@ if($del!=""){
     </style>
 </head>
 <body>
-    <p>
-        <a href="../barang/view.php">Manajemen Barang</a>
-        <a href="<?php $_SERVER['PHP_SELF']; ?>">Manajemen Pegawai</a>
-        <a href="../supplier/view.php">Manajemen Supplier</a>
-        <a href="../inc/logout.php">Log out</a>
-    </p>
+    <?php
+    if($_SESSION['role']=='manajer'){
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Data Pegawai</a>
+        <a href='../barang/view.php'>Data Barang</a>
+        <a href='../supplier/view.php'>Data Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    } else {
+        echo "<p>
+        <a href='../laporan/view.php'>Laporan</a>
+        <a href='../transaksi/view.php'>Transaksi</a>
+        <a href='../riwayat/view.php'>Riwayat Transaksi</a>
+        <a href='../pegawai/view.php'>Manajemen Pegawai</a>
+        <a href='../barang/view.php'>Manajemen Barang</a>
+        <a href='../supplier/view.php'>Manajemen Supplier</a>
+        <a href='../inc/logout.php'>Log out</a>
+    </p>";
+    }
+    ?>
     <h1>Data Pegawai</h1>
-    <p><a href="insert.php">Tambah Pegawai</a></p>
+    <?php
+    if($_SESSION['role']=='admin'){
+        echo "<p><a href='insert.php'>Tambah Pegawai</a></p>";
+    }
+    ?>
     <table>
         <tr>
             <th>No</th>
             <th>Id Pegawai</th>
             <th>Nama</th>
-            <th>Username</th>
-            <th>Aksi</th>
+            <?php
+            if($_SESSION['role']=='admin'){
+                echo "<th>Username</th>
+                      <th>Aksi</th>";
+            }
+            ?>
         </tr>
         <?php
         $no = 1;
@@ -71,14 +95,15 @@ if($del!=""){
             <tr>
                 <td>$no</td>
                 <td>$row[id_user]</td>
-                <td>$row[nama_user]</td>
-                <td>$row[username]</td>
-                <td>
-                    <a href='update.php?id=$row[id_user]'>Edit</a>
-                    <a href='view.php?del=$row[id_user]'>Hapus</a>
-                </td>
-            </tr>
-            ";
+                <td>$row[nama_user]</td>";
+                if($_SESSION['role']=='admin'){
+                    echo "<td>$row[username]</td>
+                    <td>
+                        <a href='update.php?id=$row[id_user]'>Edit</a>
+                        <a href='view.php?del=$row[id_user]'>Hapus</a>
+                    </td>";
+                }
+            echo "</tr>";
             $no++;
         }
         ?>
