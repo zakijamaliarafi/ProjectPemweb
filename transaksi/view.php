@@ -87,10 +87,10 @@ if(isset($_POST['bayar']) && !empty($_SESSION['id_transaksi'])){
 
     $update = "UPDATE `transaksi` SET bayar='$bayar', kembali='$kembali' WHERE id_transaksi='$_SESSION[id_transaksi]'";
     $query = mysqli_query($conn, $update);
-    $_SESSION['id_transaksi'] = null;
     ?>
-        <script>alert('Transaksi berhasil');</script>
+        <script>alert('Transaksi berhasil');window.open('cetak.php?id=<?php echo $_SESSION['id_transaksi'];?>', '_blank');</script>
     <?php
+    $_SESSION['id_transaksi'] = null;
 }
 
 if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){

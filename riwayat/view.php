@@ -64,7 +64,7 @@ if (!isset($_SESSION['id'])) {
         </tr>
         <?php
         $no = 1;
-        $sql = "SELECT user.nama_user, SUM(detail_transaksi.jumlah_barang) AS jumlah_barang, transaksi.total_transaksi, transaksi.tgl_transaksi FROM `transaksi` INNER JOIN user ON user.id_user=transaksi.id_user INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi=transaksi.id_transaksi WHERE transaksi.bayar IS NOT NULL GROUP BY transaksi.id_transaksi";
+        $sql = "SELECT transaksi.id_transaksi as id, user.nama_user, SUM(detail_transaksi.jumlah_barang) AS jumlah_barang, transaksi.total_transaksi, DATE_FORMAT(transaksi.tgl_transaksi,'%d/%m/%Y %H:%i:%s') as tgl FROM `transaksi` INNER JOIN user ON user.id_user=transaksi.id_user INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi=transaksi.id_transaksi WHERE transaksi.bayar IS NOT NULL GROUP BY transaksi.id_transaksi";
         $query = mysqli_query($conn,$sql);
         while($row = mysqli_fetch_array($query)){
             echo "
@@ -73,8 +73,8 @@ if (!isset($_SESSION['id'])) {
                 <td>$row[nama_user]</td>
                 <td>$row[jumlah_barang]</td>
                 <td>$row[total_transaksi]</td>
-                <td>$row[tgl_transaksi]</td>
-                <td><button>Cetak Nota</button></td>
+                <td>$row[tgl]</td>
+                <td><button><a href='../transaksi/cetak.php?id=$row[id]' target='_blank'>Cetak Nota</a></button></td>
             </tr>
             ";
             $no++;
