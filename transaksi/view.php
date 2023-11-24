@@ -129,27 +129,16 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="../assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="../assets/plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../assets//css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -292,142 +281,150 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Transaksi</h1>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+            <h1>Transaksi</h1>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-      <div class="card-body">
-        <table>
-            <tr>
-                <td>Tanggal</td>
-                <td><?php echo date("d/m/Y"); ?></td>
-            </tr>
-            <tr>
-                <td>Kasir</td>
-                <td><?php echo $row1['nama_user']; ?></td>
-            </tr>
-        </table>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <table>
+                  <tr>
+                      <td>Tanggal</td>
+                      <td><?php echo date("d/m/Y"); ?></td>
+                  </tr>
+                  <tr>
+                      <td>Kasir</td>
+                      <td><?php echo $row1['nama_user']; ?></td>
+                  </tr>
+                </table>
 
-        <form action='<?php $_SERVER['PHP_SELF']; ?>' name="cari" method="POST">
-            <table>
-                <tr>
-                    <td>ID Barang</td>
-                    <td><input type="text" name="id_barang" required></td>
-                    <td><input type="submit" name="cari" value="cari"></td>
-                    <td><input type="reset" name="reset" value="reset"></td>
-                </tr>
-            </table>
-        </form>
+                <form action='<?php $_SERVER['PHP_SELF']; ?>' name="cari" method="POST">
+                    <table>
+                        <tr>
+                            <td>ID Barang</td>
+                            <td><input type="text" name="id_barang" required></td>
+                            <td><input type="submit" name="cari" value="cari"></td>
+                            <td><input type="reset" name="reset" value="reset"></td>
+                        </tr>
+                    </table>
+                </form>
 
-        <form action='<?php $_SERVER['PHP_SELF']; ?>' name="tambah_barang" method="POST">
-            <table>
-                <tr>
-                    <td>ID Barang</td>
-                    <td>Nama Barang</td>
-                    <td>Harga Barang</td>
-                    <td>Jumlah</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="id_barang" name="id_barang" value="<?php echo $row2['id_barang']; ?>" readonly></td>
-                    <td><input type="text" name="nama_barang" value="<?php echo $row2['nama_barang']; ?>" readonly></td>
-                    <td><input type="number" name="harga_jual" value="<?php echo $row2['harga_jual']; ?>" readonly></td>
-                    <td><input type="number" name="jumlah" min="1" required></td>
-                    <td><input type="submit" id="tambah_barang" name="tambah_barang" value="simpan" disabled></td>
-                    <td><input type="submit" name="reset" value="Batal"></td>
-                </tr>
-            </table>
-        </form>
+                <form action='<?php $_SERVER['PHP_SELF']; ?>' name="tambah_barang" method="POST">
+                    <table>
+                        <tr>
+                            <td>ID Barang</td>
+                            <td>Nama Barang</td>
+                            <td>Harga Barang</td>
+                            <td>Jumlah</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="id_barang" name="id_barang" value="<?php echo $row2['id_barang']; ?>" readonly></td>
+                            <td><input type="text" name="nama_barang" value="<?php echo $row2['nama_barang']; ?>" readonly></td>
+                            <td><input type="number" name="harga_jual" value="<?php echo $row2['harga_jual']; ?>" readonly></td>
+                            <td><input type="number" name="jumlah" min="1" required></td>
+                            <td><input type="submit" id="tambah_barang" name="tambah_barang" value="simpan" disabled></td>
+                            <td><input type="submit" name="reset" value="Batal"></td>
+                        </tr>
+                    </table>
+                </form>
 
-        <table>
-            <tr>
-                <td>No</td>
-                <td>Nama Barang</td>
-                <td>Harga Barang</td>
-                <td>Jumlah</td>
-                <td colspan="2">Jumlah Harga</td>
-            </tr>
-            <?php
-            if(!empty($_SESSION['id_transaksi'])){
-                $no = 1;
-                $select = "SELECT * FROM `detail_transaksi`,`barang` WHERE detail_transaksi.id_barang=barang.id_barang AND id_transaksi='$_SESSION[id_transaksi]'";
-                $query = mysqli_query($conn, $select);
-                while($row3 = mysqli_fetch_array($query)){
-                    echo "
+                <table>
                     <tr>
-                        <td>$no</td>
-                        <td>$row3[nama_barang]</td>
-                        <td>$row3[harga_jual]</td>
-                        <td>$row3[jumlah_barang]</td>
-                        <td>Rp. </td>
-                        <td align='right'>$row3[subtotal]</td>
+                        <td>No</td>
+                        <td>Nama Barang</td>
+                        <td>Harga Barang</td>
+                        <td>Jumlah</td>
+                        <td colspan="2">Jumlah Harga</td>
                     </tr>
-                    ";
-                    $no++;
-                }
-                $select = "SELECT total_transaksi FROM `transaksi` WHERE id_transaksi='$_SESSION[id_transaksi]'";
-                $query = mysqli_query($conn, $select);
-                $row4 = mysqli_fetch_array($query);
-                echo "
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Total Bayar</td>
-                        <td>Rp. </td>
-                        <td align='right'>$row4[total_transaksi]</td>
-                    </tr>
-                ";
-            }
-            
-            ?>
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Bayar</td>
-                    <td colspan="2">Kembali</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" min="<?php echo $row4['total_transaksi']; ?>"></td>
-                    <td colspan="2"><input type="number" id="uang_kembali" name="uang_kembali" readonly></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled>
-                    <input type="submit" id="bayar_cetak" name="bayar_cetak" value="Bayar & Cetak" disabled>
-                    </td>
-                    <td><input type="submit" name="batal_bayar" value="Batal"></td>
-                </tr>
-            </form>
-        </table>
+                    <?php
+                    if(!empty($_SESSION['id_transaksi'])){
+                        $no = 1;
+                        $select = "SELECT * FROM `detail_transaksi`,`barang` WHERE detail_transaksi.id_barang=barang.id_barang AND id_transaksi='$_SESSION[id_transaksi]'";
+                        $query = mysqli_query($conn, $select);
+                        while($row3 = mysqli_fetch_array($query)){
+                            echo "
+                            <tr>
+                                <td>$no</td>
+                                <td>$row3[nama_barang]</td>
+                                <td>$row3[harga_jual]</td>
+                                <td>$row3[jumlah_barang]</td>
+                                <td>Rp. </td>
+                                <td align='right'>$row3[subtotal]</td>
+                            </tr>
+                            ";
+                            $no++;
+                        }
+                        $select = "SELECT total_transaksi FROM `transaksi` WHERE id_transaksi='$_SESSION[id_transaksi]'";
+                        $query = mysqli_query($conn, $select);
+                        $row4 = mysqli_fetch_array($query);
+                        echo "
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total Bayar</td>
+                                <td>Rp. </td>
+                                <td align='right'>$row4[total_transaksi]</td>
+                            </tr>
+                        ";
+                    }
+                    
+                    ?>
+                    <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Bayar</td>
+                            <td colspan="2">Kembali</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input type="number" id="uang_bayar" name="uang_bayar" oninput="hitung(<?php echo $row4['total_transaksi']; ?>)" min="<?php echo $row4['total_transaksi']; ?>"></td>
+                            <td colspan="2"><input type="number" id="uang_kembali" name="uang_kembali" readonly></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled>
+                            <input type="submit" id="bayar_cetak" name="bayar_cetak" value="Bayar & Cetak" disabled>
+                            </td>
+                            <td><input type="submit" name="batal_bayar" value="Batal"></td>
+                        </tr>
+                    </form>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
       </div>
-      </div><!-- /.container-fluid -->
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
 </div>
 <!-- ./wrapper -->
-
 <script>
     function hitung(total){
         let uang_bayar = document.getElementById("uang_bayar").value;
@@ -450,40 +447,44 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
     }
     
 </script>
-
 <!-- jQuery -->
 <script src="../assets/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
 <!-- Bootstrap 4 -->
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="../assets/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="../assets/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="../assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="../assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="../assets/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="../assets/plugins/moment/moment.min.js"></script>
-<script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="../assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="../assets/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="../assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../assets/plugins/jszip/jszip.min.js"></script>
+<script src="../assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../assets/js/adminlte.js"></script>
+<script src="../assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<!-- <script src="../assets/js/demo.js"></script> -->
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../assets/js/pages/dashboard.js"></script>
+<script src="../assets/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </body>
 </html>
