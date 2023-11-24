@@ -87,10 +87,21 @@ if(isset($_POST['bayar']) && !empty($_SESSION['id_transaksi'])){
 
     $update = "UPDATE `transaksi` SET bayar='$bayar', kembali='$kembali' WHERE id_transaksi='$_SESSION[id_transaksi]'";
     $query = mysqli_query($conn, $update);
+    $_SESSION['id_transaksi'] = null;
+    ?>
+        <script>alert('Transaksi berhasil');</script>
+    <?php
+}
+
+if(isset($_POST['bayar_cetak']) && !empty($_SESSION['id_transaksi'])){
+    $bayar = $_POST['uang_bayar'];
+    $kembali = $_POST['uang_kembali'];
+
+    $update = "UPDATE `transaksi` SET bayar='$bayar', kembali='$kembali' WHERE id_transaksi='$_SESSION[id_transaksi]'";
+    $query = mysqli_query($conn, $update);
     ?>
         <script>alert('Transaksi berhasil');window.open('cetak.php?id=<?php echo $_SESSION['id_transaksi'];?>', '_blank');</script>
     <?php
-    $_SESSION['id_transaksi'] = null;
 }
 
 if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
@@ -259,8 +270,9 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled></td>
+                <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled>
+                <input type="submit" id="bayar_cetak" name="bayar_cetak" value="Bayar & Cetak" disabled>
+                </td>
                 <td><input type="submit" name="batal_bayar" value="Batal"></td>
             </tr>
         </form>
@@ -272,12 +284,15 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
         document.getElementById("uang_kembali").value = kembali;
         if(kembali < 0){
             document.getElementById("bayar").disabled = true;
+            document.getElementById("bayar_cetak").disabled = true;
         } else{
             document.getElementById("bayar").disabled = false;
+            document.getElementById("bayar_cetak").disabled = false;
         }
     }
     if(document.getElementById("uang_bayar").value != ''){
         document.getElementById("bayar").disabled = false;
+        document.getElementById("bayar_cetak").disabled = false;
     }
     if(document.getElementById("id_barang").value != ''){
         document.getElementById("tambah_barang").disabled = false;
