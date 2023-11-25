@@ -262,7 +262,7 @@ if (!isset($_SESSION['id'])) {
                         <td>$row[jumlah_barang]</td>
                         <td>$row[total_transaksi]</td>
                         <td>$row[tgl]</td>
-                        <td><button><a href='../transaksi/cetak.php?id=$row[id]' target='_blank'>Cetak Nota</a></button></td>
+                        <td><button class='btn btn-default'><a href='../transaksi/cetak.php?id=$row[id]' target='_blank'>Cetak Nota</a></button></td>
                       </tr>
                       ";
                       $no++;
