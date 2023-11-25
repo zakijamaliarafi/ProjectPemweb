@@ -41,27 +41,12 @@ if(isset($_POST['input'])){
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="../assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="../assets/plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../assets//css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../assets/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-
+<body class="hold-transition sidebar-mini">
+<div class="wrapper"> 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -72,7 +57,7 @@ if(isset($_POST['input'])){
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="../assets/img/akun.png" class="img-circle elevation-2" alt="User Image">
@@ -158,90 +143,91 @@ if(isset($_POST['input'])){
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Tambah Data Pegawai</h1>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+            <h1>Manajemen Pegawai</h1>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-      <div class="card-body">
-        <form action='<?php $_SERVER['PHP_SELF']; ?>' name="insert" method="post">
-          <table>
-              <tr>
-                <td>Id Pegawai</td>
-                <td><input type="text" name="id_user" maxlength="5" required></td>  
-              </tr>
-              <tr>
-                <td>Nama</td>
-                <td><input type="text" name="nama_user" required></td>  
-              </tr>
-              <tr>
-                <td>Username</td>
-                <td><input type="text" name="username" required></td>  
-              </tr>
-              <tr>
-                <td>Password</td>
-                <td><input type="password" name="password" required></td>  
-              </tr>
-              <tr>
-                  <td></td>
-                  <td>
-                      <input type="submit" name='input' value="Tambah Data Pegawai">
-                  </td>
-              </tr>
-          </table>
-        </form>
-      </div>
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- Horizontal Form -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Tambah Data Pegawai</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form class="form-horizontal" action='<?php $_SERVER['PHP_SELF']; ?>' method="post">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label for="id_user" class="col-sm-3 col-form-label">Id Pegawai</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="id_user" name="id_user" maxlength="5" placeholder="Id Pegawai" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="nama_user" class="col-sm-3 col-form-label">Nama</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="nama_user" name="nama_user" placeholder="Nama" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="username" class="col-sm-3 col-form-label">Username</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="password" class="col-sm-3 col-form-label">Password</label>
+                    <div class="col-sm-9">
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-info float-right" name='input'>Tambah Data Pegawai</button>
+                </div>
+                <!-- /.card-footer -->
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
 </div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
 <script src="../assets/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
 <!-- Bootstrap 4 -->
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="../assets/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="../assets/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="../assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="../assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="../assets/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="../assets/plugins/moment/moment.min.js"></script>
-<script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="../assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="../assets/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="../assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../assets/js/adminlte.js"></script>
+<script src="../assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<!-- <script src="../assets/js/demo.js"></script> -->
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../assets/js/pages/dashboard.js"></script>
+<script src="../assets/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
 </body>
 </html>
