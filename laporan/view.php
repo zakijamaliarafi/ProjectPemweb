@@ -13,8 +13,8 @@ if($_SESSION['role']=='pegawai'){
 }
 
 if(isset($_POST['input'])){
-    $_SESSION['awal'] = $_POST['tanggal_mulai'];
-    $_SESSION['akhir'] = $_POST['tanggal_akhir'];
+    $_SESSION['awal'] = date("Y-m-d", strtotime($_POST['tanggal_mulai']));
+    $_SESSION['akhir'] = date("Y-m-d", strtotime($_POST['tanggal_akhir']));
 }
 
 ?>
@@ -24,16 +24,29 @@ if(isset($_POST['input'])){
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laporan</title>
+  <title>AdminLTE 3 | Advanced form elements</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../assets/plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="../assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="../assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" href="../assets/plugins/bs-stepper/css/bs-stepper.min.css">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="../assets/plugins/dropzone/min/dropzone.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../assets/css/adminlte.min.css">
 </head>
@@ -49,18 +62,18 @@ if(isset($_POST['input'])){
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="../assets/img/akun.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">
-          <?php
-            $select_user = "SELECT nama_user FROM `user` WHERE id_user = '$_SESSION[id]'";
-            $query = mysqli_query($conn,$select_user);
-            $row = mysqli_fetch_array($query);
-            echo $row['nama_user'];
+            <?php
+              $select_user = "SELECT nama_user FROM `user` WHERE id_user = '$_SESSION[id]'";
+              $query = mysqli_query($conn,$select_user);
+              $row = mysqli_fetch_array($query);
+              echo $row['nama_user'];
             ?>
           </a>
         </div>
@@ -201,69 +214,91 @@ if(isset($_POST['input'])){
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <form name="input" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-                  <label for="tanggal_mulai">Tanggal mulai:</label>
-                  <input type="date" id="tanggal_mulai" name="tanggal_mulai">
-                  <label for="tanggal_akhir">Tanggal akhir:</label>
-                  <input type="date" id="tanggal_akhir" name="tanggal_akhir">
-                  <input type="submit" name="input" value="Submit">
-                </form>
-                <table id="example1" class="table table-bordered table-striped">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Rentang Tanggal</h3>
+          </div>
+          <form action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tanggal awal:</label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input name="tanggal_mulai" type="text" class="form-control datetimepicker-input" data-target="#reservationdate" required/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tanggal akhir:</label>
+                    <div class="input-group date" id="reservationdate2" data-target-input="nearest">
+                        <input name="tanggal_akhir" type="text" class="form-control datetimepicker-input" data-target="#reservationdate2" required/>
+                        <div class="input-group-append" data-target="#reservationdate2" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" name="input" class="btn btn-primary">Submit</button>
+          </div>
+          </form>
+        </div>
+        <!-- /.card -->
+        <div class='row'>
+          <div class='col-md-6'>
+          <div class='card'>
+              <div class='card-body'>
+                <table class='table table-bordered'>
+                  <thead>
+                    <tr>
+                      <th style='width: 10px'>#</th>
+                      <th>Tanggal</th>
+                      <th>Total Laba</th>
+                      <th>Total Omset</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     <?php
-                    if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
-                        $select = "SELECT DAYOFMONTH(transaksi.tgl_transaksi) as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DAYOFMONTH(transaksi.tgl_transaksi)";
-                        $query = mysqli_query($conn, $select);
+                      if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
+                      $select = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
+                      $query = mysqli_query($conn, $select);
+                      $no = 1;
+                      while($row1 = mysqli_fetch_array($query)){
                         echo "
-                        <tr>
-                            <td>Tanggal</td>
-                            <td>Total laba</td>
-                        </tr>
+                          <tr>
+                          <td>$no</td>      
+                            <td>$row1[tanggal]</td>
+                            <td>Rp. $row1[laba]</td>
+                            <td>Rp. $row1[omset]</td>
+                          </tr>
                         ";
-                        while($row = mysqli_fetch_array($query)){
-                            echo "
-                            <tr>
-                                <td>$row[tanggal]</td>
-                                <td>Rp. $row[laba]</td>
-                            </tr>
-                            ";
-                        }
+                        $no++;
+                      }
                     }
-                    ?>
-                </table>
-                <table id="example1" class="table table-bordered table-striped">
-                    <?php
-                    if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
-                        $select = "SELECT DAYOFMONTH(tgl_transaksi) as tanggal, SUM(total_transaksi) as omset FROM `transaksi` WHERE DATE(tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DAYOFMONTH(tgl_transaksi)";
-                        $query = mysqli_query($conn, $select);
-                        echo "
-                        <tr>
-                            <td>Tanggal</td>
-                            <td>Total omset</td>
-                        </tr>
-                        ";
-                        while($row = mysqli_fetch_array($query)){
-                            echo "
-                            <tr>
-                                <td>$row[tanggal]</td>
-                                <td>Rp. $row[omset]</td>
-                            </tr>
-                            ";
-                        }
-                    }
-                    ?>
+                      ?>
+                  </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
-          <!-- /.col -->
         </div>
-        <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
     </section>
@@ -277,19 +312,25 @@ if(isset($_POST['input'])){
 <script src="../assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../assets/plugins/jszip/jszip.min.js"></script>
-<script src="../assets/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../assets/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Select2 -->
+<script src="../assets/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="../assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="../assets/plugins/moment/moment.min.js"></script>
+<script src="../assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- date-range-picker -->
+<script src="../assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="../assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- BS-Stepper -->
+<script src="../assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<!-- dropzonejs -->
+<script src="../assets/plugins/dropzone/min/dropzone.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -297,20 +338,141 @@ if(isset($_POST['input'])){
 <!-- Page specific script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
     });
-  });
+
+    $('#reservationdate2').datetimepicker({
+        format: 'L'
+    });
+
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    })
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
+  })
+  // BS-Stepper Init
+  document.addEventListener('DOMContentLoaded', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+
+  // DropzoneJS Demo Code Start
+  Dropzone.autoDiscover = false
+
+  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+  var previewNode = document.querySelector("#template")
+  previewNode.id = ""
+  var previewTemplate = previewNode.parentNode.innerHTML
+  previewNode.parentNode.removeChild(previewNode)
+
+  var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+    url: "/target-url", // Set the url
+    thumbnailWidth: 80,
+    thumbnailHeight: 80,
+    parallelUploads: 20,
+    previewTemplate: previewTemplate,
+    autoQueue: false, // Make sure the files aren't queued until manually added
+    previewsContainer: "#previews", // Define the container to display the previews
+    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+  })
+
+  myDropzone.on("addedfile", function(file) {
+    // Hookup the start button
+    file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
+  })
+
+  // Update the total progress bar
+  myDropzone.on("totaluploadprogress", function(progress) {
+    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+  })
+
+  myDropzone.on("sending", function(file) {
+    // Show the total progress bar when upload starts
+    document.querySelector("#total-progress").style.opacity = "1"
+    // And disable the start button
+    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+  })
+
+  // Hide the total progress bar when nothing's uploading anymore
+  myDropzone.on("queuecomplete", function(progress) {
+    document.querySelector("#total-progress").style.opacity = "0"
+  })
+
+  // Setup the buttons for all transfers
+  // The "add files" button doesn't need to be setup because the config
+  // `clickable` has already been specified.
+  document.querySelector("#actions .start").onclick = function() {
+    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+  }
+  document.querySelector("#actions .cancel").onclick = function() {
+    myDropzone.removeAllFiles(true)
+  }
+  // DropzoneJS Demo Code End
 </script>
 </body>
 </html>
