@@ -136,6 +136,11 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../assets/css/adminlte.min.css">
+  <style>
+    th, td {
+      padding-right: 5px;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -287,6 +292,9 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
           <div class="col-sm-6">
             <h1>Transaksi</h1>
           </div>
+          <div class="col-sm-6">
+            
+          </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -298,28 +306,33 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <table>
-                  <tr>
-                      <td>Tanggal</td>
-                      <td><?php echo date("d/m/Y"); ?></td>
-                  </tr>
-                  <tr>
-                      <td>Kasir</td>
-                      <td><?php echo $row1['nama_user']; ?></td>
-                  </tr>
-                </table>
-
+              <div class="float-sm-left">
                 <form action='<?php $_SERVER['PHP_SELF']; ?>' name="cari" method="POST">
                     <table>
                         <tr>
                             <td>ID Barang</td>
-                            <td><input type="text" name="id_barang" required></td>
-                            <td><input type="submit" name="cari" value="cari"></td>
-                            <td><input type="reset" name="reset" value="reset"></td>
+                            <td><input type="text" name="id_barang" size="12" required></td>
+                            <td><input class="btn btn-primary btn-sm" type="submit" name="cari" value="Cari"></td>
+                            <td><input class="btn btn-warning btn-sm" type="reset" name="reset" value="Reset"></td>
                         </tr>
                     </table>
                 </form>
-
+              </div>
+              <div class="float-sm-right">
+                <table>
+                  <tr>
+                      <td>Tanggal</td>
+                      <td>:</td>
+                      <td><?php echo date("d/m/Y"); ?></td>
+                  </tr>
+                  <tr>
+                      <td>Kasir</td>
+                      <td>:</td>
+                      <td><?php echo $row1['nama_user']; ?></td>
+                  </tr>
+                </table>
+              </div>
+              <div style="margin-top: 75px;">
                 <form action='<?php $_SERVER['PHP_SELF']; ?>' name="tambah_barang" method="POST">
                     <table>
                         <tr>
@@ -334,20 +347,21 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                             <td><input type="text" id="id_barang" name="id_barang" value="<?php echo $row2['id_barang']; ?>" readonly></td>
                             <td><input type="text" name="nama_barang" value="<?php echo $row2['nama_barang']; ?>" readonly></td>
                             <td><input type="number" name="harga_jual" value="<?php echo $row2['harga_jual']; ?>" readonly></td>
-                            <td><input type="number" name="jumlah" min="1" required></td>
-                            <td><input type="submit" id="tambah_barang" name="tambah_barang" value="simpan" disabled></td>
-                            <td><input type="submit" name="reset" value="Batal"></td>
+                            <td><input type="number" id="jumlah" name="jumlah" min="1" oninput="check()"></td>
+                            <td><input class="btn btn-success btn-sm" type="submit" id="tambah_barang" name="tambah_barang" value="Simpan" disabled></td>
+                            <td><input class="btn btn-danger btn-sm" type="submit" name="reset" value="Batal"></td>
                         </tr>
                     </table>
                 </form>
-
+              </div>
+              <div style="margin-top: 50px;">
                 <table>
                     <tr>
-                        <td>No</td>
-                        <td>Nama Barang</td>
-                        <td>Harga Barang</td>
-                        <td>Jumlah</td>
-                        <td colspan="2">Jumlah Harga</td>
+                        <td style="padding-right: 20px;padding-bottom: 5px;">No</td>
+                        <td style="padding-right: 70px;padding-bottom: 5px;">Nama Barang</td>
+                        <td style="padding-right: 110px;padding-bottom: 5px;">Harga Barang</td>
+                        <td style="padding-right: 75px;padding-bottom: 5px;">Jumlah</td>
+                        <td style="padding-bottom: 5px;" colspan="2">Jumlah Harga</td>
                     </tr>
                     <?php
                     if(!empty($_SESSION['id_transaksi'])){
@@ -359,7 +373,7 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                             <tr>
                                 <td>$no</td>
                                 <td>$row3[nama_barang]</td>
-                                <td>$row3[harga_jual]</td>
+                                <td>Rp. $row3[harga_jual]</td>
                                 <td>$row3[jumlah_barang]</td>
                                 <td>Rp. </td>
                                 <td align='right'>$row3[subtotal]</td>
@@ -380,6 +394,25 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                                 <td align='right'>$row4[total_transaksi]</td>
                             </tr>
                         ";
+                    } else {
+                      echo "
+                          <tr height='20px'>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total Bayar</td>
+                            <td>Rp. 0</td>
+                            <td></td>
+                          </tr>
+                      ";
                     }
                     
                     ?>
@@ -402,13 +435,14 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><input type="submit" id="bayar" name="bayar" value="Bayar" disabled>
-                            <input type="submit" id="bayar_cetak" name="bayar_cetak" value="Bayar & Cetak" disabled>
+                            <td style="padding-top: 10px;"><input class="btn btn-success btn-sm" type="submit" id="bayar" name="bayar" value="Bayar" disabled>
+                            <input class="btn btn-success btn-sm" type="submit" id="bayar_cetak" name="bayar_cetak" value="Bayar & Cetak" disabled>
                             </td>
-                            <td><input type="submit" name="batal_bayar" value="Batal"></td>
+                            <td style="padding-top: 10px;"><input class="btn btn-danger btn-sm" type="submit" name="batal_bayar" value="Batal"></td>
                         </tr>
                     </form>
                 </table>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -438,11 +472,21 @@ if(isset($_POST['batal_bayar']) && !empty($_SESSION['id_transaksi'])){
             document.getElementById("bayar_cetak").disabled = false;
         }
     }
+    function check(){
+      if(document.getElementById("jumlah").value > 0){
+        document.getElementById("tambah_barang").disabled = false;
+      }
+      if(document.getElementById("jumlah").value <= 0){
+        document.getElementById("tambah_barang").disabled = true;
+      }
+    }
     if(document.getElementById("uang_bayar").value != ''){
         document.getElementById("bayar").disabled = false;
         document.getElementById("bayar_cetak").disabled = false;
     }
-    if(document.getElementById("id_barang").value != ''){
+    if(document.getElementById("id_barang").value != '' &&
+       document.getElementById("jumlah").value > 0  
+    ){
         document.getElementById("tambah_barang").disabled = false;
     }
     
