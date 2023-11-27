@@ -49,6 +49,13 @@ if(isset($_POST['input'])){
   <link rel="stylesheet" href="../assets/plugins/dropzone/min/dropzone.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../assets/css/adminlte.min.css">
+  <script src="../assets/js/Chart.bundle.js"></script>
+  <style type="text/css">
+            .container {
+                width: 50%;
+                margin: 15px auto;
+            }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -259,45 +266,16 @@ if(isset($_POST['input'])){
           </form>
         </div>
         <!-- /.card -->
-        <div class='row'>
-          <div class='col-md-6'>
-          <div class='card'>
-              <div class='card-body'>
-                <table class='table table-bordered'>
-                  <thead>
-                    <tr>
-                      <th style='width: 10px'>#</th>
-                      <th>Tanggal</th>
-                      <th>Total Laba</th>
-                      <th>Total Omset</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
-                      $select = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
-                      $query = mysqli_query($conn, $select);
-                      $no = 1;
-                      while($row1 = mysqli_fetch_array($query)){
-                        echo "
-                          <tr>
-                          <td>$no</td>      
-                            <td>$row1[tanggal]</td>
-                            <td>Rp. $row1[laba]</td>
-                            <td>Rp. $row1[omset]</td>
-                          </tr>
-                        ";
-                        $no++;
-                      }
-                    }
-                      ?>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
+        <div class="card card-default">
+        <?php
+        if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
+          echo "<div class='container'>
+          <canvas id='laba' width='100' height='100'></canvas>
+        </div>
+        <div class='container'>
+          <canvas id='omset' width='100' height='100'></canvas>
+        </div>";
+        }?>
         </div>
       </div>
       <!-- /.container-fluid -->
@@ -474,5 +452,76 @@ if(isset($_POST['input'])){
   }
   // DropzoneJS Demo Code End
 </script>
+<?php
+    if(isset($_SESSION['awal']) && isset($_SESSION['akhir'])){
+      $select = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
+      $query = mysqli_query($conn, $select);
+      $select2 = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
+      $query2 = mysqli_query($conn, $select2);
+      $select3 = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
+      $query3 = mysqli_query($conn, $select3);
+      $select4 = "SELECT DATE_FORMAT(transaksi.tgl_transaksi, '%d/%m/%Y') as tanggal, SUM((barang.harga_jual - barang.harga_beli)*detail_transaksi.jumlah_barang) as laba, SUM(detail_transaksi.subtotal) as omset FROM `detail_transaksi` INNER JOIN `barang` ON barang.id_barang=detail_transaksi.id_barang INNER JOIN `transaksi` ON transaksi.id_transaksi=detail_transaksi.id_transaksi WHERE DATE(transaksi.tgl_transaksi) BETWEEN '$_SESSION[awal]' AND '$_SESSION[akhir]' GROUP BY DATE(transaksi.tgl_transaksi)";
+      $query4 = mysqli_query($conn, $select4);
+    }
+    
+?>
+<script>
+            var ctx = document.getElementById("laba");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [<?php while($row1 = mysqli_fetch_array($query)){echo '"' . $row1['tanggal'] . '",';} ?>],
+                    datasets: [{
+                            label: 'Total Laba',
+                            data: [<?php while($row2 = mysqli_fetch_array($query2)){echo '"' . $row2['laba'] . '",';} ?>],
+                            backgroundColor: 
+                                'rgba(54, 162, 235)'
+                            ,
+                            borderColor: 
+                                'rgba(54, 162, 235, 1)'
+                            ,
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+        </script>
+        <script>
+            var ctx = document.getElementById("omset");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [<?php while($row3 = mysqli_fetch_array($query3)){echo '"' . $row3['tanggal'] . '",';} ?>],
+                    datasets: [{
+                            label: 'Total Omset',
+                            data: [<?php while($row4 = mysqli_fetch_array($query4)){echo '"' . $row4['omset'] . '",';} ?>],
+                            backgroundColor: 
+                                'rgba(54, 162, 235)'
+                            ,
+                            borderColor: 
+                                'rgba(54, 162, 235, 1)'
+                            ,
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+        </script>
 </body>
 </html>
